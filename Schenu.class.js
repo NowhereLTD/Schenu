@@ -48,9 +48,9 @@ export class Schenu {
         }
       }.bind(this));
 
-      replaceText = replaceText.replaceAll(regexText, "endText = endText + '$1'");
+      replaceText = replaceText.replaceAll(regexText, ";endText = endText + '$1';");
 
-      replaceText = "let endText = '';" + replaceText + ";postMessage(endText);";
+      replaceText = ";let endText = '';" + replaceText + ";postMessage(endText);";
       let encoder = new TextEncoder();
       Deno.writeFileSync(tmpFileName, encoder.encode(replaceText));
 
