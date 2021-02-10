@@ -19,11 +19,16 @@ export class Schenu {
    */
   async parse(text, args = {}, errorBreak = false) {
     return new Promise((resolve, error) => {
-      let tmpFileName = "./tmpSchenuWorker" + Math.round(Math.random() * 1000) + ".js";
+      let modulePath = import.meta.url.replace("file://", "");
+      modulePath = modulePath.substr(0, modulePath.lastIndexOf("/"));
+      let tmpFileName = modulePath + "/tmpSchenuWorker" + Math.round(Math.random() * 100000) + ".js";
+
+      let regexLineBreaks = new RegExp(/\n/, "g");
       let regexText = new RegExp(/\#\#([^#]*)\#\#/, "g");
       let regexVars = new RegExp(/\$([^$]*)\$/, "g");
       let regexFunctions = new RegExp(/\~([^(]*)\(([^)]*)\)/, "g");
-      let replaceText = text;
+
+      let replaceText = text.replaceAll(regexLineBreaks, "");
 
       /**
        * Replace template variables
