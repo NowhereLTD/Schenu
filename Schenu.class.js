@@ -17,9 +17,7 @@ export class Schenu {
    */
   static async parse(text, args = {}, errorBreak = false) {
     return new Promise((resolve, error) => {
-      let modulePath = Deno.mainModule.replace("file://", "");
-      modulePath = modulePath.substr(0, modulePath.lastIndexOf("/"));
-      let tmpFileName = modulePath + "/tmpSchenuWorker" + Math.round(Math.random() * 100000) + ".js";
+      let tmpFileName = "/tmpSchenuWorker" + Math.round(Math.random() * 100000) + ".js";
 
       let regexLineBreaks = new RegExp(/\n/, "g");
       let regexText = new RegExp(/\#\#([^#]*)\#\#/, "g");
