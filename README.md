@@ -60,3 +60,7 @@ console.log(parsedTemplate);
 ```html
 <h1>Hello Schenu!</h1>
 ```
+
+### Permissions
+
+Schenu need the `--allow-write` and the `--allow-read` permissions to run.

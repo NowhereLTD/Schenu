@@ -2,9 +2,7 @@
  * Schenu - Is a javascript based template engine.
  */
 export class Schenu {
-  constructor(server) {
-    this.server = server;
-    this.server.Schenu = this;
+  constructor() {
     this.parseTimeout = 100;
     this.extensions = {};
   }
@@ -17,7 +15,7 @@ export class Schenu {
    *
    * @returns {String} The parsed template
    */
-  async parse(text, args = {}, errorBreak = false) {
+  static async parse(text, args = {}, errorBreak = false) {
     return new Promise((resolve, error) => {
       let modulePath = import.meta.url.replace("file://", "");
       modulePath = modulePath.substr(0, modulePath.lastIndexOf("/"));
