@@ -17,7 +17,9 @@ export class Schenu {
    */
   static async parse(text, args = {}, errorBreak = false) {
     return new Promise((resolve, error) => {
-      let tmpFileName = "/tmpSchenuWorker" + Math.round(Math.random() * 100000) + ".js";
+      let modulePath = Deno.mainModule.replace("file://", "");
+      modulePath = modulePath.substr(0, modulePath.lastIndexOf("/"));
+      let tmpFileName = modulePath + "/tmpSchenuWorker" + Math.round(Math.random() * 100000) + ".js";
 
       let regexLineBreaks = new RegExp(/\n/, "g");
       let regexText = new RegExp(/\#\#([^#]*)\#\#/, "g");
@@ -56,7 +58,7 @@ export class Schenu {
       Deno.writeFileSync(tmpFileName, encoder.encode(replaceText));
 
 
-      let worker = new Worker(new URL(tmpFileName, import.meta.url).href, { type: "module" });
+      let worker = new Worker(new URL(tmpFileName, Deno.mainModule).href, { type: "module" });
       let timeoutId = setTimeout(() => {
         worker.terminate();
         Deno.removeSync(tmpFileName);
