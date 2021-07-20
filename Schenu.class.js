@@ -17,7 +17,7 @@ export class Schenu {
    */
   static async parse(text, args = {}, errorBreak = false) {
     return new Promise((resolve, error) => {
-      let modulePath = import.meta.url.replace("file://", "");
+      let modulePath = Deno.mainModule.replace("file://", "");
       modulePath = modulePath.substr(0, modulePath.lastIndexOf("/"));
       let tmpFileName = modulePath + "/tmpSchenuWorker" + Math.round(Math.random() * 100000) + ".js";
 
