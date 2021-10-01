@@ -19,25 +19,27 @@ export class Schenu {
     return new Promise((resolve, error) => {
       let modulePath = Deno.mainModule.replace("file://", "");
       modulePath = modulePath.substr(0, modulePath.lastIndexOf("/"));
-      let tmpFileName = modulePath + "/tmpSchenuWorker" + Math.round(Math.random() * 100000) + ".js";
+      const tmpFileName = modulePath + "/tmpSchenuWorker" + Date.now() + Math.round(Math.random() * 100000) + ".js";
 
-      let regexLineBreaks = new RegExp(/\n/, "g");
-      let regexText = new RegExp(/\#\#([^#]*)\#\#/, "g");
-      let regexVars = new RegExp(/\$([^$]*)\$/, "g");
-      let regexFunctions = new RegExp(/\~([^(]*)\(([^)]*)\)/, "g");
+      const regexLineBreaks = new RegExp(/\n/, "g");
+      const regexText = new RegExp(/\#\#([^#]*)\#\#/, "g");
+      const regexVars = new RegExp(/\$([^$]*)\$/, "g");
+      const regexFunctions = new RegExp(/\~([^(]*)\(([^)]*)\)/, "g");
 
       let replaceText = text.replaceAll(regexLineBreaks, "");
+
+      for(let key in args) {
+        replaceText = "let " + key + " = " + JSON.stringify(args[key]) + ";" + replaceText;
+      }
 
       /**
        * Replace template variables
        */
       replaceText = replaceText.replaceAll(regexVars, function(match, variable) {
         let replacement = "' + " + variable + " + '";
-        if(args[variable] != null) {
-          replacement = args[variable];
-        }
         return replacement;
       });
+
 
       /**
        * Support extension functions
